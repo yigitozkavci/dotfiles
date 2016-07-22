@@ -1,0 +1,6 @@
+alias psql=/Applications/Postgres.app/Contents/Versions/9.5/bin/psql
+alias gop="cd /Users/yigitozkavci/Documents/Programming"
+alias goi="cd /Users/yigitozkavci/Documents/Programming/RailsWorkspace/ixirapp_rails"
+alias gopa="cd /Users/yigitozkavci/Documents/Programming/parasut"
+alias gol="cd /Users/yigitozkavci/Documents/Programming/parasut"
+
