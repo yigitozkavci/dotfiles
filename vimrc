@@ -36,6 +36,9 @@ filetype plugin indent on    " required
 :set tabstop=2
 :set shiftwidth=2
 
+" Now, vim and mac shares the same clipboard.
+set clipboard=unnamed
+
 " Custom Mappings
 map <S-E> :NERDTreeToggle <CR>
 map <C-U> 10j
