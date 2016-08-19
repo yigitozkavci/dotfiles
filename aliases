@@ -4,4 +4,5 @@ alias goi="cd /Users/yigitozkavci/Documents/Programming/RailsWorkspace/ixirapp"
 alias gopa="cd /Users/yigitozkavci/Documents/Programming/parasut"
 alias gol="cd /Users/yigitozkavci/Documents/Programming/localhost"
 alias p="ping www.google.com"
-
+alias v="vim"
+alias gor="cd /Users/yigitozkavci/Documents/Programming/RailsWorkspace"
