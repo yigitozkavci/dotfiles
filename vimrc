@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
+" set the runtime path to include Vundle and initialize.
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -30,7 +30,7 @@ Plugin 'ngmy/vim-rubocop'
 " Track the engine.
 Plugin 'SirVer/ultisnips'
 
-" Snippets are separated from the engine. Add this if you want them:
+" Snippets are separated from the engine. Add this if you want them.
 Plugin 'honza/vim-snippets'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -43,14 +43,14 @@ let g:UltiSnipsEditSplit="vertical"
 
 " -- Ultisnip END -- "
 
-" All of your Plugins must be added before the following line
+" All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
 filetype plugin indent on    " required
 
 :syntax on
 
-" Display Line Numbers
+" Display Line Numbers.
 :set number
 
 " Tab Config
@@ -61,7 +61,7 @@ filetype plugin indent on    " required
 " Now, vim and mac shares the same clipboard.
 set clipboard=unnamed
 
-" Custom Mappings
+" Custom Mappings.
 map <S-E> :NERDTreeToggle <CR>
 map <C-U> 10j
 map <C-I> 10k
@@ -69,20 +69,23 @@ map <C-A> <C-W>h
 map <C-D> <C-W>l
 map _ <C-Y>,i
 let vim_markdown_preview_hotkey='<C-m>'
+
+" Tab shortcuts.
 noremap tn :tabnew<Space>
 noremap tw :tabclose<CR>
 noremap tj :tabprev<CR>
 noremap tk :tabnext<CR>
 noremap th :tabfirst<CR>
 noremap tl :tablast<CR>
-noremap cl iconsole.log('
-noremap cp viwp
 
-" NERDTree Configuration
+" Replaces word in front with the yanked word and persists yanked word in copy register.
+noremap cp Pl"_dwb 
+
+" NERDTree Configuration.
 let NERDTreeMapOpenInTab='tt'
 autocmd vimenter * NERDTree<C-d>:q<C-a>
 
-" NERDTress File highlighting
+" NERDTress File highlighting.
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
