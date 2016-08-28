@@ -24,6 +24,12 @@ Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'mattn/emmet-vim'
 " Rubocop for ruby in vim.
 Plugin 'ngmy/vim-rubocop'
+" Ruby on Rails tools.
+Plugin 'tpope/vim-rails'
+" Commenting lines, paragraphs or words.
+Plugin 'tpope/vim-commentary'
+" Surrounding items with characters.
+Plugin 'tpope/vim-surround'
 
 " -- Ultisnip START -- "
 
@@ -68,6 +74,8 @@ map <C-I> 10k
 map <C-A> <C-W>h
 map <C-D> <C-W>l
 map _ <C-Y>,i
+map <C-n> :set relativenumber <CR>
+map <C-b> :set norelativenumber <CR>
 let vim_markdown_preview_hotkey='<C-m>'
 
 " Tab shortcuts.
@@ -79,7 +87,7 @@ noremap th :tabfirst<CR>
 noremap tl :tablast<CR>
 
 " Replaces word in front with the yanked word and persists yanked word in copy register.
-noremap cp Pl"_dwb 
+noremap cp viwp
 
 " NERDTree Configuration.
 let NERDTreeMapOpenInTab='tt'
