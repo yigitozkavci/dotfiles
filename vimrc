@@ -1,10 +1,8 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
-
 " set the runtime path to include Vundle and initialize.
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
 " let Vundle manage Vundle, required.
 Plugin 'VundleVim/Vundle.vim'
 " NERDTree. No explanation is needed.
@@ -33,28 +31,15 @@ Plugin 'tpope/vim-surround'
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them.
 Plugin 'honza/vim-snippets'
-
-" -- Ultisnip START -- "
-
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-" -- Ultisnip END -- "
 
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
 filetype plugin indent on    " required
-
+set omnifunc=syntaxcomplete#Complete
 :syntax on
 
 " Display Line Numbers.
@@ -97,10 +82,6 @@ nmap <C-O> o<Esc>
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
 
-" NERDTree Configuration.
-let NERDTreeMapOpenInTab='tt'
-autocmd vimenter * NERDTree<C-d>:q<C-a>
-
 " NERDTress File highlighting.
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
@@ -109,6 +90,31 @@ endfunction
 
 " My first good mapping, yay!
 nnoremap K :grep! -r <C-R><C-W> .<CR>
+
+"Use TAB to complete when typing words, else inserts TABs as usual.
+"Uses dictionary and source files to find matching words to complete.
+
+function! Smart_TabComplete()
+  let line = getline('.')                         " current line
+
+  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
+                                                  " line to one character right
+                                                  " of the cursor
+  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+  if (strlen(substr)==0)                          " nothing to match on empty string
+    return "\<tab>"
+  endif
+  let has_period = match(substr, '\.') != -1      " position of period, if any
+  let has_slash = match(substr, '\/') != -1       " position of slash, if any
+  if (!has_period && !has_slash)
+    return "\<C-X>\<C-P>"                         " existing text matching
+  elseif ( has_slash )
+    return "\<C-X>\<C-F>"                         " file matching
+  else
+    return "\<C-X>\<C-O>"                         " plugin matching
+  endif
+endfunction
+inoremap <tab> <c-r>=Smart_TabComplete()<CR>
 
 call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
 call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
