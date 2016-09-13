@@ -32,16 +32,15 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
-
-" -- Ultisnip START -- "
-
 " Track the engine.
 Plugin 'SirVer/ultisnips'
-
 " Snippets are separated from the engine. Add this if you want them.
 Plugin 'honza/vim-snippets'
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" -- Ultisnip START -- "
+
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -87,6 +86,13 @@ noremap tj :tabprev<CR>
 noremap tk :tabnext<CR>
 noremap th :tabfirst<CR>
 noremap tl :tablast<CR>
+
+" Vim search options.
+:set incsearch
+:set hlsearch
+
+" Creating new line without entering insert mode.
+nmap <C-O> o<Esc>
 
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
