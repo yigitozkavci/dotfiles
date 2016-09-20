@@ -3,37 +3,59 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize.
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
 " let Vundle manage Vundle, required.
 Plugin 'VundleVim/Vundle.vim'
+
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
+
 " Finding files with Ctrl+P.
 Plugin 'ctrlpvim/ctrlp.vim'
+
 " Language pack.
 Plugin 'sheerun/vim-polyglot'
+
 " Cool line bar at bottom.
 Plugin 'vim-airline/vim-airline'
+
 Plugin 'vim-airline/vim-airline-themes'
 " Git branch tracker for vim.
+
 Plugin 'tpope/vim-fugitive'
 " Vim markdown preview.
+
 Plugin 'JamshedVesuna/vim-markdown-preview'
 " Emmet for vim.
+
 Plugin 'mattn/emmet-vim'
 " Rubocop for ruby in vim.
+
 Plugin 'ngmy/vim-rubocop'
 " Ruby on Rails tools.
+
 Plugin 'tpope/vim-rails'
 " Commenting lines, paragraphs or words.
+
 Plugin 'tpope/vim-commentary'
 " Surrounding items with characters.
+
 Plugin 'tpope/vim-surround'
+" Enable repeating supported plugin maps with '.'
+
+Plugin 'tpope/vim-repeat'
+
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
-" Track the engine.
-" Plugin 'SirVer/ultisnips'
+
 " Snippets are separated from the engine. Add this if you want them.
 Plugin 'honza/vim-snippets'
+
+" Allows using custom text objects.
+Plugin 'kana/vim-textobj-user'
+
+" Text objects for ruby.
+Plugin 'rhysd/vim-textobj-ruby'
 
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
