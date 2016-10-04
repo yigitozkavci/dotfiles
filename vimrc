@@ -18,31 +18,30 @@ Plugin 'sheerun/vim-polyglot'
 
 " Cool line bar at bottom.
 Plugin 'vim-airline/vim-airline'
-
 Plugin 'vim-airline/vim-airline-themes'
+
 " Git branch tracker for vim.
-
 Plugin 'tpope/vim-fugitive'
+
 " Vim markdown preview.
-
 Plugin 'JamshedVesuna/vim-markdown-preview'
+
 " Emmet for vim.
-
 Plugin 'mattn/emmet-vim'
+
 " Rubocop for ruby in vim.
-
 Plugin 'ngmy/vim-rubocop'
+
 " Ruby on Rails tools.
-
 Plugin 'tpope/vim-rails'
-" Commenting lines, paragraphs or words.
 
+" Commenting lines, paragraphs or words.
 Plugin 'tpope/vim-commentary'
 " Surrounding items with characters.
 
 Plugin 'tpope/vim-surround'
-" Enable repeating supported plugin maps with '.'
 
+" Enable repeating supported plugin maps with '.'
 Plugin 'tpope/vim-repeat'
 
 " Creates a text object related to indentation level.
@@ -57,12 +56,22 @@ Plugin 'kana/vim-textobj-user'
 " Text objects for ruby.
 Plugin 'rhysd/vim-textobj-ruby'
 
+" Auto-generates vim end blocks.
+Plugin 'tpope/vim-endwise'
+
+" Allows navigating between vim panes like we do in tmux panes.
+Plugin 'christoomey/vim-tmux-navigator'
+
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
 filetype plugin indent on    " required
 set omnifunc=syntaxcomplete#Complete
 :syntax on
+:colorscheme tomorrow_night
+
+" Lets ctrlp to show hidden files as well.
+let g:ctrlp_show_hidden = 1
 
 " Display Line Numbers.
 :set number
@@ -71,6 +80,7 @@ set omnifunc=syntaxcomplete#Complete
 :set expandtab
 :set tabstop=2
 :set shiftwidth=2
+:retab
 
 " Now, vim and mac shares the same clipboard.
 set clipboard=unnamed
@@ -79,8 +89,6 @@ set clipboard=unnamed
 map <S-E> :NERDTreeToggle <CR>
 map <C-U> 10j
 map <C-I> 10k
-map <C-A> <C-W>h
-map <C-D> <C-W>l
 map _ <C-Y>,i
 map <C-n> :set relativenumber <CR>
 map <C-b> :set norelativenumber <CR>
@@ -98,11 +106,18 @@ noremap tl :tablast<CR>
 :set incsearch
 :set hlsearch
 
+" Disabling automatic endline at the end of the file.
+" set binary
+set noeol
+
 " Creating new line without entering insert mode.
-nmap <C-O> o<Esc>
+nmap <C-l> o<Esc>
 
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
+
+" When vim is resized, rebalance windows
+autocmd VimResized * :wincmd =
 
 " NERDTress File highlighting.
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -110,7 +125,12 @@ function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 endfunction
 
+" Letting NERDTree open automatically when starting vim.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 " My first good mapping, yay!
+" Searches word under cursor with native grep.
 nnoremap K :grep! -r <C-R><C-W> .<CR>
 
 "Use TAB to complete when typing words, else inserts TABs as usual.
@@ -161,3 +181,7 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+source ~/.vim/php-doc.vim 
+inoremap <C-P> <ESC>:call PhpDocSingle()<CR>i 
+nnoremap <C-P> :call PhpDocSingle()<CR> 
+vnoremap <C-P> :call PhpDocRange()<CR> 
