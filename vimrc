@@ -4,17 +4,29 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" Enable matching blocks
+runtime macros/matchit.vim
+
 " let Vundle manage Vundle, required.
 Plugin 'VundleVim/Vundle.vim'
 
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
 
+Plugin 'easymotion/vim-easymotion'
+" Easygrep
+Plugin 'dkprice/vim-easygrep'
+
 " Finding files with Ctrl+P.
 Plugin 'ctrlpvim/ctrlp.vim'
 
 " Language pack.
 Plugin 'sheerun/vim-polyglot'
+
+" Search faster
+Plugin 'mileszs/ack.vim'
+
+" Plugin 'lambdatoast/elm.vim'
 
 " Cool line bar at bottom.
 Plugin 'vim-airline/vim-airline'
@@ -35,10 +47,13 @@ Plugin 'ngmy/vim-rubocop'
 " Ruby on Rails tools.
 Plugin 'tpope/vim-rails'
 
+" Ag search
+Plugin 'rking/ag.vim'
+
 " Commenting lines, paragraphs or words.
 Plugin 'tpope/vim-commentary'
-" Surrounding items with characters.
 
+" Surrounding items with characters.
 Plugin 'tpope/vim-surround'
 
 " Enable repeating supported plugin maps with '.'
@@ -70,6 +85,11 @@ set omnifunc=syntaxcomplete#Complete
 :syntax on
 :colorscheme tomorrow_night
 
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
 " Lets ctrlp to show hidden files as well.
 let g:ctrlp_show_hidden = 1
 
@@ -91,8 +111,11 @@ map <C-U> 10j
 map <C-I> 10k
 map _ <C-Y>,i
 map <C-n> :set relativenumber <CR>
-map <C-b> :set norelativenumber <CR>
 let vim_markdown_preview_hotkey='<C-m>'
+noremap gb <C-^>
+nnoremap gk ddkP
+nnoremap gj ddp
+
 
 " Tab shortcuts.
 noremap tn :tabnew<Space>
@@ -129,35 +152,6 @@ endfunction
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-" My first good mapping, yay!
-" Searches word under cursor with native grep.
-nnoremap K :grep! -r <C-R><C-W> .<CR>
-
-"Use TAB to complete when typing words, else inserts TABs as usual.
-"Uses dictionary and source files to find matching words to complete.
-
-function! Smart_TabComplete()
-  let line = getline('.')                         " current line
-
-  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
-                                                  " line to one character right
-                                                  " of the cursor
-  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-  if (strlen(substr)==0)                          " nothing to match on empty string
-    return "\<tab>"
-  endif
-  let has_period = match(substr, '\.') != -1      " position of period, if any
-  let has_slash = match(substr, '\/') != -1       " position of slash, if any
-  if (!has_period && !has_slash)
-    return "\<C-X>\<C-P>"                         " existing text matching
-  elseif ( has_slash )
-    return "\<C-X>\<C-F>"                         " file matching
-  else
-    return "\<C-X>\<C-O>"                         " plugin matching
-  endif
-endfunction
-inoremap <tab> <c-r>=Smart_TabComplete()<CR>
-
 " NERDTree file highlights. It looks super-cool.
 call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
 call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
@@ -181,6 +175,37 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
-inoremap <C-P> <ESC>:call PhpDocSingle()<CR>i 
-nnoremap <C-P> :call PhpDocSingle()<CR> 
-vnoremap <C-P> :call PhpDocRange()<CR> 
+
+" air-line
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+let g:airline_theme = 'tomorrow'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#enabled = 1
