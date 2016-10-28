@@ -14,8 +14,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 
 Plugin 'easymotion/vim-easymotion'
-" Easygrep
-Plugin 'dkprice/vim-easygrep'
+
+" Vim Grepper
+Plugin 'mhinz/vim-grepper'
 
 " Finding files with Ctrl+P.
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -26,7 +27,8 @@ Plugin 'sheerun/vim-polyglot'
 " Search faster
 Plugin 'mileszs/ack.vim'
 
-" Plugin 'lambdatoast/elm.vim'
+" Elm support for vim
+Plugin 'elmcast/elm-vim'
 
 " Cool line bar at bottom.
 Plugin 'vim-airline/vim-airline'
@@ -39,7 +41,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 
 " Emmet for vim.
-Plugin 'mattn/emmet-vim'
+" Plugin 'mattn/emmet-vim'
 
 " Rubocop for ruby in vim.
 Plugin 'ngmy/vim-rubocop'
@@ -77,6 +79,12 @@ Plugin 'tpope/vim-endwise'
 " Allows navigating between vim panes like we do in tmux panes.
 Plugin 'christoomey/vim-tmux-navigator'
 
+" Quick search for Dash application
+Plugin 'rizzatti/dash.vim'
+
+" TaskWarrior in vim
+Bundle 'farseer90718/vim-taskwarrior'
+
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
@@ -85,12 +93,17 @@ set omnifunc=syntaxcomplete#Complete
 :syntax on
 :colorscheme tomorrow_night
 
+" Formatting for elm
+let g:elm_format_autosave = 1
+
+" Highlight current line
+"
+" CTRL-P Options
+:set cursorline
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-
-" Lets ctrlp to show hidden files as well.
 let g:ctrlp_show_hidden = 1
 
 " Display Line Numbers.
@@ -128,6 +141,9 @@ noremap tl :tablast<CR>
 " Vim search options.
 :set incsearch
 :set hlsearch
+
+" Disabling swap files
+set noswapfile
 
 " Disabling automatic endline at the end of the file.
 " set binary
@@ -209,3 +225,13 @@ let g:airline_theme = 'tomorrow'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#enabled = 1
+
+" Mimic :grep and make ag the default tool.
+let g:grepper = {
+    \ 'tools': ['ag', 'git', 'grep'],
+    \ 'open':  0,
+    \ 'jump':  1,
+    \ }
+nnoremap <leader>git :Grepper -tool git -noswitch<cr>
+nnoremap <leader>ag  :Grepper -tool ag  -open -switch<cr>
+nnoremap <leader>*   :Grepper -tool ack -cword -noprompt<cr>

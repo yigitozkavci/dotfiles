@@ -98,3 +98,14 @@ export EDITOR=vim
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 [[ -s "/Users/yigitozkavci/.rvm/scripts/rvm" ]] && source "/Users/yigitozkavci/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+task_count=$(task status:pending count)
+if [ $task_count = 0 ]; then
+  echo "You don't have any tasks.";
+else
+  echo "Your current tasks: ";
+  task status:pending list;
+fi
+
+# export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
+TERM=screen-256color
