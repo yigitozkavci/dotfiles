@@ -107,5 +107,4 @@ else
   task status:pending list;
 fi
 
-# export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
-TERM=screen-256color
+export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin

@@ -1,5 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set t_Co=256
+set term=screen-256color
 " set the runtime path to include Vundle and initialize.
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -116,14 +118,14 @@ let g:ctrlp_show_hidden = 1
 :retab
 
 " Now, vim and mac shares the same clipboard.
-set clipboard=unnamed
+set clipboard+=unnamed
 
 " Custom Mappings.
 map <S-E> :NERDTreeToggle <CR>
 map <C-U> 10j
 map <C-I> 10k
 map _ <C-Y>,i
-map <C-n> :set relativenumber <CR>
+:set relativenumber
 let vim_markdown_preview_hotkey='<C-m>'
 noremap gb <C-^>
 nnoremap gk ddkP
