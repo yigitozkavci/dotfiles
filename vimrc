@@ -1,21 +1,15 @@
-set nocompatible              " be iMproved, required
+" set nocompatible              " be iMproved, required
 filetype off                  " required
 set t_Co=256
 set term=screen-256color
+" set ttyfast
+" set lazyredraw
 " set the runtime path to include Vundle and initialize.
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" Enable matching blocks
-runtime macros/matchit.vim
-
-" let Vundle manage Vundle, required.
-Plugin 'VundleVim/Vundle.vim'
-
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
-
-Plugin 'easymotion/vim-easymotion'
 
 " Vim Grepper
 Plugin 'mhinz/vim-grepper'
@@ -25,28 +19,10 @@ Plugin 'ctrlpvim/ctrlp.vim'
 
 " Language pack.
 Plugin 'sheerun/vim-polyglot'
-
-" Search faster
-Plugin 'mileszs/ack.vim'
+let g:polyglot_disabled = ['elm']
 
 " Elm support for vim
-Plugin 'elmcast/elm-vim'
-
-" Cool line bar at bottom.
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-" Git branch tracker for vim.
-Plugin 'tpope/vim-fugitive'
-
-" Vim markdown preview.
-Plugin 'JamshedVesuna/vim-markdown-preview'
-
-" Emmet for vim.
-" Plugin 'mattn/emmet-vim'
-
-" Rubocop for ruby in vim.
-Plugin 'ngmy/vim-rubocop'
+Plugin 'ElmCast/elm-vim'
 
 " Ruby on Rails tools.
 Plugin 'tpope/vim-rails'
@@ -66,9 +42,6 @@ Plugin 'tpope/vim-repeat'
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
 
-" Snippets are separated from the engine. Add this if you want them.
-Plugin 'honza/vim-snippets'
-
 " Allows using custom text objects.
 Plugin 'kana/vim-textobj-user'
 
@@ -81,11 +54,8 @@ Plugin 'tpope/vim-endwise'
 " Allows navigating between vim panes like we do in tmux panes.
 Plugin 'christoomey/vim-tmux-navigator'
 
-" Quick search for Dash application
-Plugin 'rizzatti/dash.vim'
-
-" TaskWarrior in vim
-Bundle 'farseer90718/vim-taskwarrior'
+" Go support in vim
+Plugin 'fatih/vim-go'
 
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
@@ -117,8 +87,13 @@ let g:ctrlp_show_hidden = 1
 :set shiftwidth=2
 :retab
 
+" Exit visual mode immediately
+:vmap <ESC> <C-c>
+
 " Now, vim and mac shares the same clipboard.
-set clipboard+=unnamed
+if $TMUX =~ ''
+  set clipboard=unnamed
+endif
 
 " Custom Mappings.
 map <S-E> :NERDTreeToggle <CR>
@@ -151,9 +126,6 @@ set noswapfile
 " set binary
 set noeol
 
-" Creating new line without entering insert mode.
-nmap <C-l> o<Esc>
-
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
 
@@ -167,8 +139,8 @@ function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
 endfunction
 
 " Letting NERDTree open automatically when starting vim.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " NERDTree file highlights. It looks super-cool.
 call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
@@ -237,3 +209,14 @@ let g:grepper = {
 nnoremap <leader>git :Grepper -tool git -noswitch<cr>
 nnoremap <leader>ag  :Grepper -tool ag  -open -switch<cr>
 nnoremap <leader>*   :Grepper -tool ack -cword -noprompt<cr>
+
+au FileType go nmap <leader>r <Plug>(go-run)
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+noremap <leader>l :GoLint<CR>
+noremap <leader>b :GoBuild<CR>

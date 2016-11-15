@@ -108,3 +108,5 @@ else
 fi
 
 export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
+export GOPATH=~/Documents/Programming/GoWorkspace
+export EVENT_NOKQUEUE=1
