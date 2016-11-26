@@ -6,7 +6,9 @@ vim_colors_path="~/.vim/colors"
 vim_colors=$(find .vim/colors/*)
 for file in $files; do
   if [ -f $dotfile_dir/$file ]; then
-    if [ -f "~/.$file" ]; then
+    echo "Checking; ~/.$file"
+    if [ -L ~/.$file ]; then
+      echo "Deleted: ~/.$file"
       rm ~/.$file
     fi
     ln -s $dotfile_dir/$file ~/.$file
