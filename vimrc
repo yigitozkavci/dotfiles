@@ -11,6 +11,23 @@ call vundle#begin()
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
 
+" *=== Ultisnips ===*
+"
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsSnippetsDir="~/.vim/U"
+" let g:UltiSnipsSnippetDirectories="~/.vim/ultisnips"
+
+" *=== Ultisnips ===*
+
 " Vim Grepper
 Plugin 'mhinz/vim-grepper'
 
@@ -20,6 +37,13 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " Language pack.
 Plugin 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['elm']
+
+" Javascript syntax highlighting
+Plugin 'pangloss/vim-javascript'
+
+" JSX syntax highlighting
+Plugin 'mxw/vim-jsx'
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " Elm support for vim
 Plugin 'ElmCast/elm-vim'

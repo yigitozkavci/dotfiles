@@ -110,3 +110,6 @@ fi
 export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
 export GOPATH=~/Documents/Programming/GoWorkspace
 export EVENT_NOKQUEUE=1
+
+export NVM_DIR="/Users/yigitozkavci/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
