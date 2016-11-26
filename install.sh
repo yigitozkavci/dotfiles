@@ -6,8 +6,10 @@ vim_colors_path="~/.vim/colors"
 vim_colors=$(find .vim/colors/*)
 for file in $files; do
   if [ -f $dotfile_dir/$file ]; then
-    echo "Checking: ~/.$file "
-    ln -s $dir/$file ~/.$file
+    if [ -f "~/.$file" ]; then
+      rm ~/.$file
+    fi
+    ln -s $dotfile_dir/$file ~/.$file
     echo "File connected: $dir/$file"
   fi
 done
