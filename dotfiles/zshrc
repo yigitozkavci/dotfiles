@@ -3,6 +3,22 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/yigitozkavci/.oh-my-zsh
+export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
+export PATH=$PATH:/Library/TeX/texbin
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin
+export PATH=$PATH:/Applications/ghc-7.10.3.app/Contents/bin
+export PATH=$PATH:/Applications/llvm/bin
+export GOPATH=~/Documents/Programming/GoWorkspace
+export EVENT_NOKQUEUE=1
+export NVM_DIR="/Users/yigitozkavci/.nvm"
+
+phpcs="/Users/yigitozkavci/Downloads/PHP_CodeSniffer-3.0.0RC1/PHP_CodeSniffer-3.0.0RC1/bin"
+if [ -d $phpcs ]; then
+  export PATH=$PATH:$phpcs
+fi
+
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -107,9 +123,6 @@ else
   task status:pending list;
 fi
 
-export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
-export GOPATH=~/Documents/Programming/GoWorkspace
-export EVENT_NOKQUEUE=1
-
-export NVM_DIR="/Users/yigitozkavci/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# Autocompletion for hub cli
+fpath=(~/.zsh/completions $fpath)
+autoload -U compinit && compinit
