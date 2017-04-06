@@ -1,4 +1,3 @@
-alias psql=/Applications/Postgres.app/Contents/Versions/9.5/bin/psql
 alias gop="cd /Users/yigitozkavci/Documents/Programming"
 alias goi="cd /Users/yigitozkavci/Documents/Programming/RailsWorkspace/ixirapp"
 alias gopa="cd /Users/yigitozkavci/Documents/Programming/parasut"
@@ -14,3 +13,5 @@ alias gcd="git checkout develop"
 alias gs="git status"
 alias t="task"
 alias c="clear"
+alias vim="/usr/local/Cellar/vim/8.0.0102/bin/vim"
+alias goh="cd /Users/yigitozkavci/Documents/Programming/HaskellWorkspace"
