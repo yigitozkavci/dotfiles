@@ -1,13 +1,14 @@
 " set nocompatible              " be iMproved, required
 filetype off                  " required
-set t_Co=256
-set term=screen-256color
+" set t_Co=256
+" set term=screen-256color
 " set ttyfast
 " set lazyredraw
 " set the runtime path to include Vundle and initialize.
+" runtime! macros/matchit.vim
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
+runtime macros/matchit.vim
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
 
@@ -18,32 +19,68 @@ Plugin 'SirVer/ultisnips'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-" let g:UltiSnipsSnippetsDir="~/.vim/U"
-" let g:UltiSnipsSnippetDirectories="~/.vim/ultisnips"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+
+" Git diffs with signs
+Plugin 'airblade/vim-gitgutter'
+
+" A beautiful view of current file.
+Plugin 'junegunn/goyo.vim'
+noremap <leader>g :Goyo 120<CR>
+
+" *=== ag ===*
+Plugin 'rking/ag.vim'
+
+if executable("ag")
+  let g:ackprg = "ag --nogroup --column"
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
+noremap <leader>a :Ag
 
 " *=== Ultisnips ===*
 
-" Vim Grepper
-Plugin 'mhinz/vim-grepper'
+" Haskell plugin
+
+" == Syntastic
+Plugin 'scrooloose/syntastic'
+map <Leader>s :SyntasticToggleMode<CR>
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+" == /Syntastic
+
+" == GHC MOD
+Plugin 'eagletmt/ghcmod-vim'
+map <silent> tw :GhcModTypeInsert<CR>
+map <silent> ts :GhcModSplitFunCase<CR>
+map <silent> tq :GhcModType<CR>
+map <silent> te :GhcModTypeClear<CR>
+" == /GHC MOD
+
+
+let $PATH = $PATH . ':' . expand('~/Library/Haskell/bin')
 
 " Finding files with Ctrl+P.
 Plugin 'ctrlpvim/ctrlp.vim'
 
+" Git wrapper
+Plugin 'tpope/vim-fugitive'
+
 " Language pack.
-Plugin 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['elm']
-
-" Javascript syntax highlighting
-Plugin 'pangloss/vim-javascript'
-
-" JSX syntax highlighting
-Plugin 'mxw/vim-jsx'
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" Plugin 'sheerun/vim-polyglot'
+" let g:polyglot_disabled = ['elm']
 
 " Elm support for vim
 Plugin 'ElmCast/elm-vim'
@@ -51,8 +88,8 @@ Plugin 'ElmCast/elm-vim'
 " Ruby on Rails tools.
 Plugin 'tpope/vim-rails'
 
-" Ag search
-Plugin 'rking/ag.vim'
+" CoVim
+Plugin 'FredKSchott/CoVim'
 
 " Commenting lines, paragraphs or words.
 Plugin 'tpope/vim-commentary'
@@ -63,8 +100,19 @@ Plugin 'tpope/vim-surround'
 " Enable repeating supported plugin maps with '.'
 Plugin 'tpope/vim-repeat'
 
+" Note taking with vim
+Plugin 'vimwiki/vimwiki'
+
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
+
+" Prettifying blocks
+Plugin 'godlygeek/tabular'
+let g:haskell_tabular = 1
+
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
 
 " Allows using custom text objects.
 Plugin 'kana/vim-textobj-user'
@@ -81,25 +129,31 @@ Plugin 'christoomey/vim-tmux-navigator'
 " Go support in vim
 Plugin 'fatih/vim-go'
 
+" Typescript support
+Plugin 'Quramy/tsuquyomi'
+Plugin 'Shougo/vimproc.vim'
+
+" Aligner. Will be used for ruby hashes
+Plugin 'junegunn/vim-easy-align'
+
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
 filetype plugin indent on    " required
 set omnifunc=syntaxcomplete#Complete
 :syntax on
-:colorscheme tomorrow_night
+
+" :colorscheme Tomorrow-Night
+:colorscheme Hybrid
 
 " Formatting for elm
-let g:elm_format_autosave = 1
+" let g:elm_format_autosave = 1
 
 " Highlight current line
 "
 " CTRL-P Options
 :set cursorline
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
 let g:ctrlp_show_hidden = 1
 
 " Display Line Numbers.
@@ -121,14 +175,11 @@ endif
 
 " Custom Mappings.
 map <S-E> :NERDTreeToggle <CR>
-map <C-U> 10j
-map <C-I> 10k
 map _ <C-Y>,i
 :set relativenumber
 let vim_markdown_preview_hotkey='<C-m>'
 noremap gb <C-^>
-nnoremap gk ddkP
-nnoremap gj ddp
+nnoremap _ ^
 
 
 " Tab shortcuts.
@@ -150,36 +201,14 @@ set noswapfile
 " set binary
 set noeol
 
+" Indent on new line
+set autoindent
+
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
 
 " When vim is resized, rebalance windows
-autocmd VimResized * :wincmd =
-
-" NERDTress File highlighting.
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-" Letting NERDTree open automatically when starting vim.
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-" NERDTree file highlights. It looks super-cool.
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+" autocmd VimResized * :wincmd =
 
 " Cursor shape config.
 if exists('$TMUX')
@@ -190,50 +219,6 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" air-line
-let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-let g:airline_theme = 'tomorrow'
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#enabled = 1
-
-" Mimic :grep and make ag the default tool.
-let g:grepper = {
-    \ 'tools': ['ag', 'git', 'grep'],
-    \ 'open':  0,
-    \ 'jump':  1,
-    \ }
-nnoremap <leader>git :Grepper -tool git -noswitch<cr>
-nnoremap <leader>ag  :Grepper -tool ag  -open -switch<cr>
-nnoremap <leader>*   :Grepper -tool ack -cword -noprompt<cr>
-
 au FileType go nmap <leader>r <Plug>(go-run)
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -242,5 +227,34 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
-noremap <leader>l :GoLint<CR>
-noremap <leader>b :GoBuild<CR>
+" noremap <leader>l :GoLint<CR>
+" noremap <leader>b :GoBuild<CR>
+" match OverLength /\%111v.\+/
+imap <C-L> <C-X><C-N>
+imap <C-J> <C-N>
+imap <C-K> <C-P>
+
+" Highlights characters in the line after 80 characters
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%121v.\+/
+
+" Macros
+let @l='ilet(:Whi)f=r{A }'
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+noremap <leader>f :NERDTreeFind<CR>
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" In visual mode, use $ as if it's g_ because I rarely need newline character
+" at the end
+vmap $ g_
