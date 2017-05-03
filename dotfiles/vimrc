@@ -94,6 +94,9 @@ Plugin 'FredKSchott/CoVim'
 " Commenting lines, paragraphs or words.
 Plugin 'tpope/vim-commentary'
 
+" Hoogle inside vim
+Plugin 'Twinside/vim-hoogle'
+
 " Surrounding items with characters.
 Plugin 'tpope/vim-surround'
 
@@ -180,7 +183,7 @@ map _ <C-Y>,i
 let vim_markdown_preview_hotkey='<C-m>'
 noremap gb <C-^>
 nnoremap _ ^
-
+imap <c-u> <esc>lviwU<esc>
 
 " Tab shortcuts.
 noremap tn :tabnew<Space>
@@ -235,8 +238,8 @@ imap <C-J> <C-N>
 imap <C-K> <C-P>
 
 " Highlights characters in the line after 80 characters
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%121v.\+/
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%121v.\+/
 
 " Macros
 let @l='ilet(:Whi)f=r{A }'
@@ -258,3 +261,5 @@ set grepprg=grep\ -nH\ $*
 " In visual mode, use $ as if it's g_ because I rarely need newline character
 " at the end
 vmap $ g_
+
+set timeoutlen=1000 ttimeoutlen=0
