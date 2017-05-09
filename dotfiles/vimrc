@@ -36,6 +36,9 @@ noremap <leader>g :Goyo 120<CR>
 " *=== ag ===*
 Plugin 'rking/ag.vim'
 
+" Vue.js
+Plugin 'posva/vim-vue'
+
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -180,7 +183,6 @@ endif
 map <S-E> :NERDTreeToggle <CR>
 map _ <C-Y>,i
 :set relativenumber
-let vim_markdown_preview_hotkey='<C-m>'
 noremap gb <C-^>
 nnoremap _ ^
 imap <c-u> <esc>lviwU<esc>
@@ -192,6 +194,12 @@ noremap tj :tabprev<CR>
 noremap tk :tabnext<CR>
 noremap th :tabfirst<CR>
 noremap tl :tablast<CR>
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
 
 " Vim search options.
 :set incsearch
@@ -262,4 +270,5 @@ set grepprg=grep\ -nH\ $*
 " at the end
 vmap $ g_
 
-set timeoutlen=1000 ttimeoutlen=0
+" Markdown support
+Plugin 'plasticboy/vim-markdown'
