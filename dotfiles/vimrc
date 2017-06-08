@@ -37,7 +37,7 @@ noremap <leader>g :Goyo 120<CR>
 Plugin 'rking/ag.vim'
 
 " Vue.js
-Plugin 'posva/vim-vue'
+" Plugin 'posva/vim-vue'
 
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
@@ -86,13 +86,10 @@ Plugin 'tpope/vim-fugitive'
 " let g:polyglot_disabled = ['elm']
 
 " Elm support for vim
-Plugin 'ElmCast/elm-vim'
+" Plugin 'ElmCast/elm-vim'
 
 " Ruby on Rails tools.
 Plugin 'tpope/vim-rails'
-
-" CoVim
-Plugin 'FredKSchott/CoVim'
 
 " Commenting lines, paragraphs or words.
 Plugin 'tpope/vim-commentary'
@@ -133,11 +130,11 @@ Plugin 'tpope/vim-endwise'
 Plugin 'christoomey/vim-tmux-navigator'
 
 " Go support in vim
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
 
 " Typescript support
-Plugin 'Quramy/tsuquyomi'
-Plugin 'Shougo/vimproc.vim'
+" Plugin 'Quramy/tsuquyomi'
+" Plugin 'Shougo/vimproc.vim'
 
 " Aligner. Will be used for ruby hashes
 Plugin 'junegunn/vim-easy-align'
@@ -149,8 +146,7 @@ filetype plugin indent on    " required
 set omnifunc=syntaxcomplete#Complete
 :syntax on
 
-" :colorscheme Tomorrow-Night
-:colorscheme Hybrid
+:colorscheme tomorrow_night
 
 " Formatting for elm
 " let g:elm_format_autosave = 1
