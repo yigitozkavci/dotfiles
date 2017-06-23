@@ -1,8 +1,8 @@
 dir=~/dotfiles
 dotfile_dir=~/dotfiles/dotfiles
 files=$(find ./dotfiles/* -type f -exec basename {} \;)
-vim_path="~/.vim"
-vim_colors_path="~/.vim/colors"
+vim_path=~/.vim
+vim_colors_path=~/.vim/colors
 vim_colors=$(find .vim/colors/*)
 
 for file in $files; do
@@ -27,4 +27,19 @@ for color in $vim_colors; do
   fi
 done
 
+command_exists () {
+    type "$1" &> /dev/null ;
+}
+
+if ! [[ -d ~/.vim/bundle/Vundle.vim ]]; then
+  echo "Vundle is not installed, installing...";
+	if ! command_exists git ; then
+		echo "Git is not installed. Install it and execute the script again."
+    exit 1
+	else
+		git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	fi
+fi
+
 echo "Install completed."
+exit 0
