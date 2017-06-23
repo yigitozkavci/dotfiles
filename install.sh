@@ -4,6 +4,7 @@ files=$(find ./dotfiles/* -type f -exec basename {} \;)
 vim_path="~/.vim"
 vim_colors_path="~/.vim/colors"
 vim_colors=$(find .vim/colors/*)
+
 for file in $files; do
   if [ -f $dotfile_dir/$file ]; then
     echo "Checking; ~/.$file"
@@ -15,6 +16,10 @@ for file in $files; do
     echo "File connected: $dir/$file"
   fi
 done
+
+if ! [[ -d $vim_colors_path ]]; then
+  mkdir $vim_colors_path
+fi
 
 for color in $vim_colors; do
   if ! [ -f $dir/$color ]; then
