@@ -7,6 +7,8 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize.
 " runtime! macros/matchit.vim
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/vimproc.vim
+set rtp+=/usr/local/opt/fzf
 call vundle#begin()
 runtime macros/matchit.vim
 " NERDTree. No explanation is needed.
@@ -42,9 +44,10 @@ Plugin 'rking/ag.vim'
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_max_files = 'ag %s -l --nocolor -g ""'
 endif
 
-noremap <leader>a :Ag
+noremap <leader>a :Ag 
 
 " *=== Ultisnips ===*
 
@@ -75,8 +78,8 @@ map <silent> te :GhcModTypeClear<CR>
 
 let $PATH = $PATH . ':' . expand('~/Library/Haskell/bin')
 
-" Finding files with Ctrl+P.
-Plugin 'ctrlpvim/ctrlp.vim'
+" Fuzzy Finder
+noremap <C-p> :FZF<CR>
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
