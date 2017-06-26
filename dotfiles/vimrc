@@ -80,6 +80,7 @@ let $PATH = $PATH . ':' . expand('~/Library/Haskell/bin')
 
 " Fuzzy Finder
 noremap <C-p> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
@@ -172,11 +173,6 @@ let g:ctrlp_show_hidden = 1
 
 " Exit visual mode immediately
 :vmap <ESC> <C-c>
-
-" Now, vim and mac shares the same clipboard.
-if $TMUX =~ ''
-  set clipboard=unnamed
-endif
 
 " Custom Mappings.
 map <S-E> :NERDTreeToggle <CR>
@@ -271,3 +267,9 @@ vmap $ g_
 
 " Markdown support
 Plugin 'plasticboy/vim-markdown'
+
+" Now, vim and mac shares the same clipboard.
+" To make this stuff work, check:
+" - You have done `brew install reattach-to-user-namespace`
+" - if you have clipboard access with `vim --version`.
+set clipboard=unnamed
