@@ -29,7 +29,7 @@ command_exists () {
     type "$1" &> /dev/null ;
 }
 
-if ! [[ -d ~/.vim/bundle/Vundle.vim ]]; then
+if ! [[ -d $vim_path/bundle/Vundle.vim ]]; then
   echo "Vundle is not installed, installing...";
 	if ! command_exists git ; then
 		echo "Git is not installed. Install it and execute the script again."
@@ -37,6 +37,25 @@ if ! [[ -d ~/.vim/bundle/Vundle.vim ]]; then
 	else
 		git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	fi
+fi
+
+is_linux () {
+  a=$(uname -a)
+  -z [[ $a == "Linux ubuntu*" ]]
+}
+
+is_os_x () {
+  a=$(uname -a)
+  -z [[ $a == "Darwin*" ]]
+}
+
+if ! command_exists zsh ; then
+  if is_linux; then
+    sudo apt-get install zsh # Get zsh
+  elif is_os_x; then
+    brew install zsh zsh-completions # Get zsh
+  fi
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" # Get oh-my-zsh
 fi
 
 echo "Install completed."
