@@ -3,7 +3,7 @@ dotfile_dir=~/dotfiles/dotfiles
 files=$(find ./dotfiles/* -type f -exec basename {} \;)
 vim_path=~/.vim
 vim_colors_path=~/.vim/colors
-vim_colors=$(find .vim/colors/*)
+alias vim_colors=$(find $dir/.vim/colors/*) # For lazy evaluation
 
 for file in $files; do
   if [ -f $dotfile_dir/$file ]; then
@@ -18,13 +18,12 @@ for file in $files; do
 done
 
 if ! [[ -d $vim_colors_path ]]; then
-  mkdir $vim_colors_path
+  mkdir -p $vim_colors_path
 fi
 
-for color in $vim_colors; do
-  if ! [ -f $dir/$color ]; then
-    ln -s $dir/$color ~/$color
-  fi
+for color in $(find $dir/.vim/colors/*); do
+  echo "Connecting $color";
+  ln -s $color $vim_colors_path/
 done
 
 command_exists () {
