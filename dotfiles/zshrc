@@ -2,18 +2,18 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/yigitozkavci/.oh-my-zsh
-export PATH=$PATH:/Users/yigitozkavci/.composer/vendor/bin
+export ZSH=~/.oh-my-zsh
+export PATH=$PATH:~/.composer/vendor/bin
 export PATH=$PATH:/Library/TeX/texbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.6/bin
 export PATH=$PATH:/Applications/ghc-7.10.3.app/Contents/bin
 export PATH=$PATH:/Applications/llvm/bin
 export PATH=$PATH:/usr/local/mysql/bin
-export PATH=$PATH:/Users/yigitozkavci/.cabal/bin
+export PATH=$PATH:~/.cabal/bin
 export GOPATH=~/Documents/Programming/GoWorkspace
 export EVENT_NOKQUEUE=1
-export NVM_DIR="/Users/yigitozkavci/.nvm"
+export NVM_DIR="~/.nvm"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.

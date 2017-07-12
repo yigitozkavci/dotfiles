@@ -3,7 +3,6 @@ dotfile_dir=~/dotfiles/dotfiles
 files=$(find ./dotfiles/* -type f -exec basename {} \;)
 vim_path=~/.vim
 vim_colors_path=~/.vim/colors
-alias vim_colors=$(find $dir/.vim/colors/*) # For lazy evaluation
 
 for file in $files; do
   if [ -f $dotfile_dir/$file ]; then
