@@ -1,22 +1,20 @@
-" set nocompatible              " be iMproved, required
 filetype off                  " required
-" set t_Co=256
-" set term=screen-256color
-" set ttyfast
-" set lazyredraw
-" set the runtime path to include Vundle and initialize.
-" runtime! macros/matchit.vim
+
+" Runtimepath for sourcing .vim files
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/vimproc.vim
 set rtp+=/usr/local/opt/fzf
+
+
 call vundle#begin()
+
 runtime macros/matchit.vim
+
 " NERDTree. No explanation is needed.
 Plugin 'scrooloose/nerdtree'
 
-" *=== Ultisnips ===*
-"
-" Track the engine.
+" --- BEGIN Ultisnips ---
+
 Plugin 'SirVer/ultisnips'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -28,18 +26,16 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
+" --- END Ultisnips ---
+
 " Git diffs with signs
 Plugin 'airblade/vim-gitgutter'
 
 " A beautiful view of current file.
-Plugin 'junegunn/goyo.vim'
-noremap <leader>g :Goyo 120<CR>
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-" *=== ag ===*
+" --- BEGIN ag ---
 Plugin 'rking/ag.vim'
-
-" Vue.js
-" Plugin 'posva/vim-vue'
 
 if executable("ag")
   let g:ackprg = "ag --nogroup --column"
@@ -49,11 +45,10 @@ endif
 
 noremap <leader>a :Ag 
 
-" *=== Ultisnips ===*
+" --- END ag ---
 
-" Haskell plugin
+" --- BEGIN Syntastic ---
 
-" == Syntastic
 Plugin 'scrooloose/syntastic'
 map <Leader>s :SyntasticToggleMode<CR>
 
@@ -65,32 +60,28 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-" == /Syntastic
 
-" == GHC MOD
+" --- END Syntastic ---
+
+" --- BEGIN ghc-mod ---
+
 Plugin 'eagletmt/ghcmod-vim'
 map <silent> tw :GhcModTypeInsert<CR>
 map <silent> ts :GhcModSplitFunCase<CR>
 map <silent> tq :GhcModType<CR>
 map <silent> te :GhcModTypeClear<CR>
-" == /GHC MOD
 
+" --- END Syntastic ---
 
-let $PATH = $PATH . ':' . expand('~/Library/Haskell/bin')
+" --- BEGIN fuzzy finder ---
 
-" Fuzzy Finder
 noremap <C-p> :FZF<CR>
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
+" --- END fuzzy finder ---
+
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
-
-" Language pack.
-" Plugin 'sheerun/vim-polyglot'
-" let g:polyglot_disabled = ['elm']
-
-" Elm support for vim
-" Plugin 'ElmCast/elm-vim'
 
 " Ruby on Rails tools.
 Plugin 'tpope/vim-rails'
@@ -113,13 +104,18 @@ Plugin 'vimwiki/vimwiki'
 " Creates a text object related to indentation level.
 Plugin 'michaeljsmith/vim-indent-object'
 
+" --- BEGIN Tabular ---
+
 " Prettifying blocks
 Plugin 'godlygeek/tabular'
+
 let g:haskell_tabular = 1
 
 vmap a= :Tabularize /=<CR>
 vmap a; :Tabularize /::<CR>
 vmap a- :Tabularize /-><CR>
+
+" --- END Tabular ---
 
 " Allows using custom text objects.
 Plugin 'kana/vim-textobj-user'
@@ -133,54 +129,35 @@ Plugin 'tpope/vim-endwise'
 " Allows navigating between vim panes like we do in tmux panes.
 Plugin 'christoomey/vim-tmux-navigator'
 
-" Go support in vim
-" Plugin 'fatih/vim-go'
-
-" Typescript support
-" Plugin 'Quramy/tsuquyomi'
-" Plugin 'Shougo/vimproc.vim'
-
 " Aligner. Will be used for ruby hashes
 Plugin 'junegunn/vim-easy-align'
 
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
+" Standard Config
 filetype plugin indent on    " required
 set omnifunc=syntaxcomplete#Complete
-:syntax on
+syntax on
+colorscheme tomorrow_night
+set number
+set relativenumber
+set nofoldenable " Disable all kind of folds
+set laststatus=2 " Always display status bar
 
-:colorscheme tomorrow_night
+" Tab Config
+set expandtab
+set tabstop=2
+set shiftwidth=2
+retab
 
-" Formatting for elm
-" let g:elm_format_autosave = 1
-
-" Highlight current line
-"
 " CTRL-P Options
-:set cursorline
+set cursorline
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 let g:ctrlp_show_hidden = 1
 
-" Display Line Numbers.
-:set number
-
-" Tab Config
-:set expandtab
-:set tabstop=2
-:set shiftwidth=2
-:retab
-
 " Exit visual mode immediately
-:vmap <ESC> <C-c>
-
-" Custom Mappings.
-map <S-E> :NERDTreeToggle <CR>
-map _ <C-Y>,i
-:set relativenumber
-noremap gb <C-^>
-nnoremap _ ^
-imap <c-u> <esc>lviwU<esc>
+vmap <ESC> <C-c>
 
 " Tab shortcuts.
 noremap tn :tabnew<Space>
@@ -197,8 +174,8 @@ noremap <leader>5 5gt
 noremap <leader>6 6gt
 
 " Vim search options.
-:set incsearch
-:set hlsearch
+set incsearch
+set hlsearch
 
 " Disabling swap files
 set noswapfile
@@ -214,7 +191,7 @@ set autoindent
 noremap cp viwp
 
 " When vim is resized, rebalance windows
-" autocmd VimResized * :wincmd =
+autocmd VimResized * :wincmd =
 
 " Cursor shape config.
 if exists('$TMUX')
@@ -225,17 +202,7 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-au FileType go nmap <leader>r <Plug>(go-run)
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-" noremap <leader>l :GoLint<CR>
-" noremap <leader>b :GoBuild<CR>
-" match OverLength /\%111v.\+/
+" Autocompletion config
 imap <C-L> <C-X><C-N>
 imap <C-J> <C-N>
 imap <C-K> <C-P>
@@ -244,32 +211,42 @@ imap <C-K> <C-P>
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%121v.\+/
 
-" Macros
-let @l='ilet(:Whi)f=r{A }'
-
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+" Move the selected visual block up and down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-noremap <leader>f :NERDTreeFind<CR>
 
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
+" Pretty self-explanatory
+noremap <leader>f :NERDTreeFind<CR>
 
 " In visual mode, use $ as if it's g_ because I rarely need newline character
 " at the end
 vmap $ g_
-
-" Markdown support
-Plugin 'plasticboy/vim-markdown'
 
 " Now, vim and mac shares the same clipboard.
 " To make this stuff work, check:
 " - You have done `brew install reattach-to-user-namespace`
 " - if you have clipboard access with `vim --version`.
 set clipboard=unnamed
+
+" Custom Mappings.
+map <S-E> :NERDTreeToggle <CR>
+map _ <C-Y>,i
+noremap gb <C-^>
+nnoremap _ ^
+imap <c-u> <esc>lviwU<esc>
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>G
+nnoremap <leader>sv :w<cr>:source $MYVIMRC<cr>:q<cr>
+
+inoremap jk <esc>
+inoremap <esc> <nop>
+inoremap C-[ <nop>
+
+augroup mdwn
+  autocmd FileType markdown onoremap ih :<c-u>execute "normal! ?^==\\+$\r:noh\rkvg_"<cr>
+augroup END
