@@ -250,3 +250,22 @@ inoremap C-[ <nop>
 augroup mdwn
   autocmd FileType markdown onoremap ih :<c-u>execute "normal! ?^==\\+$\r:noh\rkvg_"<cr>
 augroup END
+
+set statusline=File:\ %f
+
+function! ProcessLine()
+  if getline(".")[col(".")-1] ==# '}'
+    return 1
+  else
+    normal w~hP_w~j_
+    call ProcessLine()
+  endif
+endfunction
+
+function! Genericify()
+  execute "normal! _/Payload\<cr>hvbyj_"
+  call ProcessLine()
+endfunction
+
+nnoremap go :call Genericify()<CR>
+nnoremap g; vi}:Tabularize /::<CR>
