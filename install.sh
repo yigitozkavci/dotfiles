@@ -1,5 +1,6 @@
 dir=~/dotfiles
 dotfile_dir=~/dotfiles/dotfiles
+dotfile_dir=~/dotfiles/configs
 files=$(find ./dotfiles/* -type f -exec basename {} \;)
 vim_path=~/.vim
 vim_colors_path=~/.vim/colors
@@ -15,6 +16,9 @@ for file in $files; do
     echo "File connected: $dir/$file"
   fi
 done
+
+echo "Setting up Alacritty config..."
+ln -s $config_dir/alacritty.yml ~/.config/alacritty/alacritty.yml
 
 if ! [[ -d $vim_colors_path ]]; then
   mkdir -p $vim_colors_path
@@ -41,12 +45,12 @@ fi
 
 is_linux () {
   a=$(uname -a)
-  -z [[ $a == "Linux ubuntu*" ]]
+  -z [[ $a == *"Linux"* ]]
 }
 
 is_os_x () {
   a=$(uname -a)
-  -z [[ $a == "Darwin*" ]]
+  -z [[ $a == *"Darwin"* ]]
 }
 
 if ! command_exists zsh ; then
@@ -58,5 +62,10 @@ if ! command_exists zsh ; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" # Get oh-my-zsh
 fi
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 echo "Install completed."
+echo "Reminders:"
+echo "1) After executing tmux, type <prefix>I to install tmux plugins"
+echo "2) After executing vim, type :PluginInstall<CR> to install vim plugins"
 exit 0
