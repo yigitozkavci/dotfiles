@@ -3,7 +3,7 @@ filetype off                  " required
 " Runtimepath for sourcing .vim files
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/vimproc.vim
-set rtp+=/usr/local/opt/fzf
+set rtp+=~/.fzf
 
 
 call vundle#begin()
@@ -59,17 +59,17 @@ set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
 
 " --- END Syntastic ---
 
 " --- BEGIN ghc-mod ---
 
-Plugin 'eagletmt/ghcmod-vim'
-map <silent> tw :GhcModTypeInsert<CR>
-map <silent> ts :GhcModSplitFunCase<CR>
-map <silent> tq :GhcModType<CR>
-map <silent> te :GhcModTypeClear<CR>
+" Plugin 'eagletmt/ghcmod-vim'
+" map <silent> tw :GhcModTypeInsert<CR>
+" map <silent> ts :GhcModSplitFunCase<CR>
+" map <silent> tq :GhcModType<CR>
+" map <silent> te :GhcModTypeClear<CR>
 
 " --- END Syntastic ---
 
@@ -132,6 +132,19 @@ Plugin 'christoomey/vim-tmux-navigator'
 " Aligner. Will be used for ruby hashes
 Plugin 'junegunn/vim-easy-align'
 
+" Formatter with support of many filetypes
+Plugin 'sbdchd/neoformat'
+
+" Haskell syntax highlighter
+Plugin 'neovimhaskell/haskell-vim'
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
 " All of your Plugins must be added before the following line.
 call vundle#end()            " required
 
@@ -139,7 +152,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 set omnifunc=syntaxcomplete#Complete
 syntax on
-colorscheme tomorrow_night
+set background=dark
+colorscheme solarized8_flat
 set number
 set relativenumber
 set nofoldenable " Disable all kind of folds
@@ -185,7 +199,7 @@ set noswapfile
 set noeol
 
 " Indent on new line
-set autoindent
+" set autoindent
 
 " Replaces word in front with the yanked word and persists yanked word in copy register.
 noremap cp viwp
@@ -253,19 +267,19 @@ augroup END
 
 set statusline=File:\ %f
 
-function! ProcessLine()
-  if getline(".")[col(".")-1] ==# '}'
-    return 1
-  else
-    normal w~hP_w~j_
-    call ProcessLine()
-  endif
-endfunction
-
-function! Genericify()
-  execute "normal! _/Payload\<cr>hvbyj_"
-  call ProcessLine()
-endfunction
-
-nnoremap go :call Genericify()<CR>
 nnoremap g; vi}:Tabularize /::<CR>
+
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat! haskell brittany
+augroup END
+
+function! TogglePaste()
+  if &paste
+    set nopaste
+  else
+    set paste
+  endif
+endfunction!
+
+nnoremap <leader>p :call TogglePaste()<CR>
