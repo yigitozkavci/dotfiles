@@ -1,12 +1,13 @@
 dir=~/dotfiles
 dotfile_dir=~/dotfiles/dotfiles
-dotfile_dir=~/dotfiles/configs
+config_dir=~/dotfiles/configs
 files=$(find ./dotfiles/* -type f -exec basename {} \;)
 vim_path=~/.vim
 vim_colors_path=~/.vim/colors
+alacritty_config_destination=~/.config/alacritty/alacritty.yml
 
 for file in $files; do
-  if [ -f $dotfile_dir/$file ]; then
+  if [[ -f $dotfile_dir/$file && ! -f ~/.$file ]]; then
     echo "Checking; ~/.$file"
     if [ -L ~/.$file ]; then
       echo "Deleted: ~/.$file"
@@ -17,16 +18,23 @@ for file in $files; do
   fi
 done
 
-echo "Setting up Alacritty config..."
-ln -s $config_dir/alacritty.yml ~/.config/alacritty/alacritty.yml
+if ! [[ -d ~/.config/alacritty ]]; then
+  mkdir -p ~/.config/alacritty
+fi
+if ! [[ -f $alacritty_config_destination ]]; then
+  echo "Setting up Alacritty config..."
+  ln -s $config_dir/alacritty.yml $alacritty_config_destination
+fi
 
 if ! [[ -d $vim_colors_path ]]; then
   mkdir -p $vim_colors_path
 fi
 
 for color in $(find $dir/.vim/colors/*); do
-  echo "Connecting $color";
-  ln -s $color $vim_colors_path/
+  if ! [[ -f $color ]]; then
+    echo "Connecting $color";
+    ln -s $color $vim_colors_path/
+  fi
 done
 
 command_exists () {
@@ -44,13 +52,15 @@ if ! [[ -d $vim_path/bundle/Vundle.vim ]]; then
 fi
 
 is_linux () {
-  a=$(uname -a)
-  -z [[ $a == *"Linux"* ]]
+  uname=$(uname -a)
+  [[ "$uname" == *"Linux"* ]] && return
+  false
 }
 
 is_os_x () {
-  a=$(uname -a)
-  -z [[ $a == *"Darwin"* ]]
+  uname=$(uname -a)
+  [[ "$uname" == *"Darwin"* ]] && return
+  false
 }
 
 if ! command_exists zsh ; then
@@ -62,7 +72,9 @@ if ! command_exists zsh ; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" # Get oh-my-zsh
 fi
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if ! [[ -d ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
 echo "Install completed."
 echo "Reminders:"
